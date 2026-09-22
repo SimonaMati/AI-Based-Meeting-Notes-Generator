@@ -5,7 +5,7 @@ Course project for a graduate AI course at Northeastern University (2026) by [Si
 
 ## Results
 Two abstractive summarization models were fine-tuned and compared on the 28-sample AMI test split. ROUGE computed with 'rouge_score' using stemming.
-| Model | Params | ROUGE-1 R | ROUGE-2 R | ROUGE-L R | ROUGE-1 F1 | Max input |
+| Model | Params | ROUGE-1 Recall | ROUGE-2 Recall | ROUGE-L Recall | ROUGE-1 F1 | Max input |
 |---|---|---|---|---|---|---|
 | **BART-large-CNN-samsum** | 406.3M | **79.05%** | **45.64%** | **44.44%** | **37.78%** | 1024 |
 | Flan-T5-base | 247.6M | 71.22% | 40.06% | 43.32% | 31.99% | 512 |
