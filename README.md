@@ -58,13 +58,63 @@ A separate **40-meeting domain collection** (15 business, 10 education, 15 healt
 Note the AMI `ihm` split is ~15 GB and takes several minutes to download.
 
 ## Models
+Trained on Kaggle Notebook with a single T4 GPU. Seeds fixed for PyTorch and NumPy.
+
+| | Flan-T5-base | BART-large-CNN-samsum |
+|---|---|---|
+| Checkpoint | `google/flan-t5-base` | `philschmid/bart-large-cnn-samsum` |
+| Parameters | 247,577,856 | 406,290,432 |
+| Max input / target | 512 / 256 | 1024 / 512 |
+| Epochs | 20 | 25 |
+| Batch size | 4 | 2 |
+| Gradient accumulation | 2 | 4 |
+| Learning rate | 5e-5 | 2e-5 |
+| Weight decay | 0.01 | 0.01 |
+| Scheduler | - | OneCycleLR |
+| Gradient clipping | - | max norm 1.0 |
+| Chunk size | ~400 words | ~750 words |
+
+Larger variants of both were tried first but exceeded the notebook's GPU budget, and Flan-T5-large showed signs of overfitting. AMI transcripts run from ~3,000 to over 20,000 words, so chunking is unavoidable at either context size.
+
+## Preprocessing
+- Audio loaded and resampled to 16 kHz with `librosa`, segmented into 30-second chunks for Whisper small. Video audio extracted with FFmpeg first.
+- Filler words removed by regex (`um`, `uh`, `hmm`, `erm`, `ah`, `mm`, `mhm`).
+- Repeated whitespace collapsed; spurious spaces before punctuation fixed.
+- Empty speaker lines (a speaker tag with no utterance) dropped.
+- Transcripts chunked to word counts sized conservatively below each model's token limit; chunk summaries concatenated.
 
 ## Running it
+Written for Kaggle with GPU enabled. Running locally needs a CUDA GPU.
 
-## Evaluation
+```bash
+pip install transformers==4.40.0 datasets accelerate evaluate \
+            rouge-score nltk sentencepiece \
+            librosa soundfile openai-whisper \
+            gradio huggingface_hub tqdm rich
+```
 
-## Repository contents
+The AMI datasets are gated, so authentication is required:
+
+```bash
+export HF_TOKEN=your_token_here
+```
+
+```python
+import os
+from huggingface_hub import login
+login(token=os.environ["HF_TOKEN"])
+```
+
+Never hardcode the token in the notebook - see `.env.example`.
+Then run `SKakani_SMatiukaite_ai-final-project.ipynb` top to bottom. Stage checkpoints are pickled along the way so long stages don't have to be repeated.
 
 ## Limitations
+- 28-sample test set; results are indicative, not conclusive.
+- **No speaker diarization.** Speaker attribution relies on the speaker tags already present in AMI transcripts. Arbitrary audio would need diarization (e.g. pyannote) added first — this is named as future work in the paper.
+- Healthcare-domain meetings are constructed from a medical Q&A dataset, so that domain tests topic robustness rather than real clinical dialogue.
+- Action item extraction is rule-based: it misses paraphrased commitments and over-fires on hypotheticals. AMI's design-team meetings are unusually rich in intention statements, which likely flatters the 880-item count.
+- Chunked summarization can duplicate content across chunk boundaries.
+- Much of AMI is scenario-based rather than naturally occurring meetings.
 
-## License
+# Future work
+Speaker diarization, larger and more diverse meeting corpora, and parameter-efficient fine-tuning.
