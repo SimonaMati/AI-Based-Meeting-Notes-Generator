@@ -1,7 +1,7 @@
 # AI-Based-Meeting-Notes-Generator
 The AI-based meeting notes generator turns meeting video, audio or text into structured notes - a summary as well as speaker-attributed action items, deadlines, key decisions and a domain label.
 
-Course project for a graduate AI course at Northeastern University (2026) by [Siddhi Kakani](https://github.com/siddhi1703) and [Simona Matiukaite](https://github.com/SimonaMati). Written up as a research paper.
+Course project for a graduate AI course at Northeastern University (2026) by [Siddhi Kakani](https://github.com/siddhi1703) and [Simona Matiukaite](https://github.com/SimonaMati). Written up as a [research paper](Kakani_Matiukaite_Research_paper.pdf).
 
 ## Results
 Two abstractive summarization models were fine-tuned and compared on the 28-sample AMI test split. ROUGE computed with 'rouge_score' using stemming.
@@ -123,5 +123,5 @@ Then run `SKakani_SMatiukaite_ai-final-project.ipynb` top to bottom. Stage check
 - Chunked summarization can duplicate content across chunk boundaries.
 - Much of AMI is scenario-based rather than naturally occurring meetings.
 
-# Future work
+## Future work
 Speaker diarization, larger and more diverse meeting corpora, and parameter-efficient fine-tuning.
