@@ -1,4 +1,4 @@
-# AI-Based-Meeting-Notes-Generator
+# AI-Based Meeting Notes Generator
 The AI-based meeting notes generator turns meeting video, audio or text into structured notes - a summary as well as speaker-attributed action items, deadlines, key decisions and a domain label.
 
 Course project for a graduate AI course at Northeastern University (2026) by [Siddhi Kakani](https://github.com/siddhi1703) and [Simona Matiukaite](https://github.com/SimonaMati). Written up as a [research paper](Kakani_Matiukaite_Research_paper.pdf).
