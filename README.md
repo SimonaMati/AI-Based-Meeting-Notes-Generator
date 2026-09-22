@@ -16,6 +16,13 @@ Per-sample ROUGE-1 recall ranged from 45.9% to 99.1% across the 28 test meetings
 
 **Information extraction**, run over the 40-meeting domain collection: 880 speaker-attributed action items, 15 key decisions, 4 explicit deadline references. The keyword-based domain classifier placed all 40 meetings in the correct domain.
 
+![ROUGE recall and F1 by model, and the per-sample ROUGE-L recall distribution for BART-samsum](results/eval_charts.png)
+
+*Left and centre: ROUGE recall and F1 for both models. Right: distribution of per-sample ROUGE-L recall for BART-samsum across the 28 test meetings (mean 44.4%).*
+
+Note the shape of the middle panel. F1 sits far below recall for both models because the hybrid strategy deliberately generates long, coverage-heavy summaries against short human references - precision pays for that. The ranking between models is unchanged either way.
+
+
 **Caveat on scale:** 28 test samples. The gap between models is wide enough to be informative, but this is a course-scale evaluation, not a benchmark result.
 
 ## Pipeline
